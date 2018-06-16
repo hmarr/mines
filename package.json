@@ -1,6 +1,6 @@
 {
-  "name": "sweeper",
-  "version": "0.1.0",
+  "name": "mines",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "immutable": "^3.8.2",
