@@ -1,12 +1,12 @@
 import * as React from "react";
-import { CellState } from "../game/game";
+import { CellState } from "../game";
 
 interface ICellProps {
   bomb: boolean;
   neighbouringBombs: number;
   state: CellState;
-  onUpdate: (state: CellState) => void;
-  onRevealAll: () => void;
+  onReveal: () => void;
+  onToggleFlag: () => void;
 }
 
 const cellStyle: React.CSSProperties = {
@@ -68,22 +68,11 @@ export default class Cell extends React.Component<ICellProps> {
   }
 
   private handleClick = () => {
-    if (this.props.bomb) {
-      this.props.onRevealAll();
-    } else {
-      this.props.onUpdate("revealed");
-    }
+    this.props.onReveal();
   };
 
   private handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
-    switch (this.props.state) {
-      case "concealed":
-        this.props.onUpdate("flagged");
-        break;
-      case "flagged":
-        this.props.onUpdate("concealed");
-        break;
-    }
+    this.props.onToggleFlag();
   };
 }
