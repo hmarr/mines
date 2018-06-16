@@ -1,4 +1,4 @@
 import { Board, CellGrid, CellState, ICell } from "./board";
-import { Game } from "./game";
+import { Game, GameState } from "./game";
 
-export { Board, CellGrid, CellState, Game, ICell };
+export { Board, CellGrid, CellState, Game, GameState, ICell };

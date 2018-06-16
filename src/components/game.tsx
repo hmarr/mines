@@ -40,9 +40,9 @@ export default class Game extends React.Component<IGameProps, IGameState> {
 
   private statusText() {
     switch (this.state.game.state) {
-      case "won":
+      case game.GameState.Won:
         return "🎉🎉🎉";
-      case "lost":
+      case game.GameState.Lost:
         return "😵😵😵";
       default:
         return "🙂";

@@ -23,13 +23,13 @@ const baseStyle: React.CSSProperties = {
 };
 
 const stateStyles = {
-  concealed: {
+  [CellState.Concealed]: {
     background: "#eeeeee"
   },
-  flagged: {
+  [CellState.Flagged]: {
     background: "#eeeeee"
   },
-  revealed: {
+  [CellState.Revealed]: {
     background: "#ffffff"
   }
 };
@@ -50,9 +50,9 @@ export default class Cell extends React.Component<ICellProps> {
 
   private renderContent() {
     switch (this.props.state) {
-      case "flagged":
+      case CellState.Flagged:
         return "🚩";
-      case "revealed":
+      case CellState.Revealed:
         if (this.props.bomb) {
           return "💣";
         }
@@ -61,7 +61,7 @@ export default class Cell extends React.Component<ICellProps> {
           return "";
         }
         return this.props.neighbouringBombs;
-      case "concealed":
+      case CellState.Concealed:
         return "";
     }
   }

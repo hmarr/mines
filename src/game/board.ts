@@ -1,6 +1,10 @@
 import { List } from "immutable";
 
-export type CellState = "flagged" | "concealed" | "revealed";
+export enum CellState {
+  Flagged = 1,
+  Concealed,
+  Revealed
+}
 
 export interface ICell {
   bomb: boolean;
@@ -29,7 +33,7 @@ export class Board {
             const cell: ICell = {
               bomb,
               neighbouringBombs: 0,
-              state: "concealed"
+              state: CellState.Concealed
             };
             cells.setIn([row, col], cell);
           }
@@ -79,14 +83,14 @@ export class Board {
           continue;
         }
 
-        cells.setIn([row, col], { ...cell, state: "revealed" });
+        cells.setIn([row, col], { ...cell, state: CellState.Revealed });
 
         if (cell.neighbouringBombs > 0) {
           continue;
         }
 
         for (const loc of this.neighbourLocations(row, col)) {
-          if (cells.getIn(loc).state !== "revealed") {
+          if (cells.getIn(loc).state !== CellState.Revealed) {
             locationsToCheck.push(loc);
           }
         }
@@ -99,7 +103,7 @@ export class Board {
     const cells = this.cells
       .map((row: List<ICell>) =>
         row
-          .map((cell: ICell): ICell => ({ ...cell, state: "revealed" }))
+          .map((cell: ICell): ICell => ({ ...cell, state: CellState.Revealed }))
           .toList()
       )
       .toList();
@@ -108,7 +112,10 @@ export class Board {
 
   public toggleFlag(row: number, col: number): Board {
     const cell: ICell = this.cellAt(row, col);
-    const transitions = { concealed: "flagged", flagged: "concealed" };
+    const transitions = {
+      [CellState.Concealed]: CellState.Flagged,
+      [CellState.Flagged]: CellState.Concealed
+    };
     const state = transitions[cell.state] || cell.state;
     return new Board(
       this.width,
@@ -141,18 +148,3 @@ export class Board {
     return locations;
   }
 }
-
-// export function checkSuccess(board: ICell[][]): boolean {
-//   for (const row of board) {
-//     for (const cell of row) {
-//       if (cell.state === "concealed") {
-//         return false;
-//       }
-
-//       if (cell.state === "flagged" && !cell.bomb) {
-//         return false;
-//       }
-//     }
-//   }
-//   return true;
-// }

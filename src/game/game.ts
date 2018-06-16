@@ -1,6 +1,10 @@
-import { Board } from "./board";
+import { Board, CellState } from "./board";
 
-type GameState = "won" | "lost" | "in-progress";
+export enum GameState {
+  Won,
+  Lost,
+  InProgress
+}
 
 export class Game {
   public static buildNew(width: number, height: number, bombs: number) {
@@ -31,17 +35,20 @@ export class Game {
     for (let row = 0; row < this.board.height; row++) {
       for (let col = 0; col < this.board.width; col++) {
         const cell = this.board.cellAt(row, col);
-        if (cell.bomb && cell.state === "revealed") {
-          return "lost";
+        if (cell.bomb && cell.state === CellState.Revealed) {
+          return GameState.Lost;
         }
 
         if (!cell.bomb) {
-          if (cell.state === "concealed" || cell.state === "flagged") {
-            return "in-progress";
+          if (
+            cell.state === CellState.Concealed ||
+            cell.state === CellState.Flagged
+          ) {
+            return GameState.InProgress;
           }
         }
       }
     }
-    return "won";
+    return GameState.Won;
   }
 }
