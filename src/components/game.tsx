@@ -12,15 +12,6 @@ interface IGameState {
   game: game.Game;
 }
 
-const statusStyles = {
-  lost: {
-    background: "rgb(255, 220, 220)"
-  },
-  won: {
-    background: "rgb(216, 255, 220)"
-  }
-};
-
 export default class Game extends React.Component<IGameProps, IGameState> {
   constructor(props: IGameProps) {
     super(props);
@@ -35,7 +26,8 @@ export default class Game extends React.Component<IGameProps, IGameState> {
 
   public render() {
     return (
-      <div style={statusStyles[this.state.game.state]}>
+      <div>
+        <h1 style={{ textAlign: "center" }}>{this.statusText()}</h1>
         <Board
           board={this.state.game.board}
           onReveal={this.handleReveal}
@@ -44,6 +36,17 @@ export default class Game extends React.Component<IGameProps, IGameState> {
         <button onClick={this.handleReset}>Reset</button>
       </div>
     );
+  }
+
+  private statusText() {
+    switch (this.state.game.state) {
+      case "won":
+        return "🎉🎉🎉";
+      case "lost":
+        return "😵😵😵";
+      default:
+        return "🙂";
+    }
   }
 
   private handleReveal = (row: number, col: number) => {

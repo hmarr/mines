@@ -5,7 +5,8 @@ const containerStyle: React.CSSProperties = {
   alignItems: "center",
   display: "flex",
   flexDirection: "column",
-  margin: 100
+  margin: 100,
+  marginTop: 40
 };
 
 class App extends React.Component {
